@@ -2,6 +2,17 @@
 
 server="$1"
 
+if [ "${server}" = "" ] ; then
+    echo "Please give an ip address"
+    exit 1
+fi
+ping -c 1 "${server}" > /dev/null
+if [ "$?" != "0" ] ; then
+    echo "the ip address doesn't answer to the ping, please verify your raspberry pi address"
+    exit 1
+fi
+exit 0
+
 publickey=`cat ~/.ssh/id_rsa.pub`
 ssh "pi@${server}" "mkdir -p .ssh ; echo '${publickey}' >> .ssh/authorized_keys"
 ssh "pi@${server}" "cat .ssh/authorized_keys | sort | uniq > .ssh/authorized_keys.uniq"
