@@ -1,6 +1,7 @@
 #!/bin/sh
 
 server="$1"
+user="pi"
 
 if [ "${server}" = "" ] ; then
     echo "Please give an ip address"
@@ -14,16 +15,16 @@ fi
 exit 0
 
 publickey=`cat ~/.ssh/id_rsa.pub`
-ssh "pi@${server}" "mkdir -p .ssh ; echo '${publickey}' >> .ssh/authorized_keys"
-ssh "pi@${server}" "cat .ssh/authorized_keys | sort | uniq > .ssh/authorized_keys.uniq"
-ssh "pi@${server}" "mv .ssh/authorized_keys.uniq .ssh/authorized_keys"
-ssh "pi@${server}" sudo cp -r /home/pi/.ssh /root
+ssh "${user}@${server}" "mkdir -p .ssh ; echo '${publickey}' >> .ssh/authorized_keys"
+ssh "${user}@${server}" "cat .ssh/authorized_keys | sort | uniq > .ssh/authorized_keys.uniq"
+ssh "${user}@${server}" "mv .ssh/authorized_keys.uniq .ssh/authorized_keys"
+ssh "${user}@${server}" sudo cp -r /home/pi/.ssh /root
 
 ssh "root@${server}" "cat /etc/ssh/sshd_config | sed 's/\#PasswordAuthentication/PasswordAuthentication/' | sed 's/PasswordAuthentication yes/PasswordAuthentication no/' > /tmp/ssh "
 ssh "root@${server}" "cat /tmp/ssh | sed 's/\#PermitRootLogin/PermitRootLogin/' | sed 's/PermitRootLogin no/PermitRootLogin yes/' > /etc/ssh/sshd_config"
 
-ssh "pi@${server}" sudo apt-get update -y
-ssh "pi@${server}" sudo apt-get upgrade -y
+ssh "${user}@${server}" sudo apt-get update -y
+ssh "${user}@${server}" sudo apt-get upgrade -y
 
 if [ "1" = "1" ]; then
     ssh "root@${server}" mkdir -p /tmp/package
@@ -43,9 +44,9 @@ if [ "1" = "1" ]; then
     sleep 20
 fi
 
-ssh "pi@${server}" true 2> /dev/null
+ssh "${user}@${server}" true 2> /dev/null
 while [ "$?" != "0" ]; do
-    ssh "pi@${server}" true 2> /dev/null
+    ssh "${user}@${server}" true 2> /dev/null
 done
 
 ssh "root@${server}" apt-get install git python-dev python-setuptools avahi-daemon avahi-dnsconfd evtest tslib libts-bin
