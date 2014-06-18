@@ -12,7 +12,6 @@ if [ "$?" != "0" ] ; then
     echo "the ip address doesn't answer to the ping, please verify your raspberry pi address"
     exit 1
 fi
-exit 0
 
 publickey=`cat ~/.ssh/id_rsa.pub`
 ssh "${user}@${server}" "mkdir -p .ssh ; echo '${publickey}' >> .ssh/authorized_keys"
