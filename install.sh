@@ -25,7 +25,7 @@ ssh "root@${server}" "cat /tmp/ssh | sed 's/\#PermitRootLogin/PermitRootLogin/' 
 ssh "${user}@${server}" sudo apt-get update -y
 ssh "${user}@${server}" sudo apt-get upgrade -y
 
-if [ "1" = "1" ]; then
+if [ "NOPITFT" != "1" ]; then
     ssh "root@${server}" mkdir -p /tmp/package
     ssh "root@${server}" "cd /tmp/package ; wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-bin-adafruit.deb"
     ssh "root@${server}" "cd /tmp/package ; wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-dev-adafruit.deb"
