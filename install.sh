@@ -39,9 +39,9 @@ if [ "$NOPITFT" != "1" ]; then
     ssh "root@${server}" "echo 'options fbtft_device name=adafruitts rotate=90 frequency=32000000' >> /etc/modprobe.d/adafruit.conf"
     ssh "root@${server}" "mkdir -p /etc/X11/xorg.conf.d"
     ssh "root@${server}" "echo 'SUBSYSTEM==\"input\", ATTRS{name}==\"stmpe-ts\", ENV{DEVNAME}==\"*event*\", SYMLINK+=\"input/touchscreen\"' > /etc/udev/rules.d/95-stmpe.rules"
-    ssh "root@${server}" reboot
-    sleep 20
 fi
+ssh "root@${server}" reboot
+sleep 20
 
 ssh "${user}@${server}" true 2> /dev/null
 while [ "$?" != "0" ]; do
