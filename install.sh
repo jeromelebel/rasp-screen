@@ -38,7 +38,7 @@ if [ "$NOPITFT" != "1" ]; then
     ssh "root@${server}" rm -f /usr/share/X11/xorg.conf.d/99-fbturbo.conf
     ssh "root@${server}" "grep spi-bcm2708 /etc/modules || echo spi-bcm2708 >> /etc/modules"
     ssh "root@${server}" "grep fbtft_device /etc/modules || echo fbtft_device >> /etc/modules"
-    ssh "root@${server}" "echo 'options fbtft_device name=adafruitts rotate=90 frequency=32000000' >> /etc/modprobe.d/adafruit.conf"
+    ssh "root@${server}" "echo 'options fbtft_device name=adafruitts rotate=90 frequency=32000000' > /etc/modprobe.d/adafruit.conf"
     ssh "root@${server}" "mkdir -p /etc/X11/xorg.conf.d"
     ssh "root@${server}" "echo 'SUBSYSTEM==\"input\", ATTRS{name}==\"stmpe-ts\", ENV{DEVNAME}==\"*event*\", SYMLINK+=\"input/touchscreen\"' > /etc/udev/rules.d/95-stmpe.rules"
 fi
