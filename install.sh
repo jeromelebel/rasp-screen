@@ -49,3 +49,9 @@ ssh "${user}@${server}" true 2> /dev/null
 while [ "$?" != "0" ]; do
     ssh "${user}@${server}" true 2> /dev/null
 done
+
+if [ "$NOPYGAME" != "1" ]; then
+    ssh "root@${server}" "git clone git://git.drogon.net/wiringPi ; cd wiringPi ; ./build"
+    ssh "root@${server}" "git clone https://github.com/Gadgetoid/WiringPi2-Python.git ; cd WiringPi2-Python ; python setup.py install"
+    ssh "root@${server}" "wget https://github.com/climberhunt/LapsePiTouch/archive/master.zip ; unzip master.zip"
+fi
