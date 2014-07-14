@@ -25,6 +25,8 @@ ssh "root@${server}" "cat /tmp/ssh | sed 's/\#PermitRootLogin/PermitRootLogin/' 
 ssh "${user}@${server}" sudo apt-get update -y
 ssh "${user}@${server}" sudo apt-get upgrade -y
 
+ssh "root@${server}" apt-get install git python-dev python-setuptools avahi-daemon avahi-dnsconfd evtest tslib libts-bin xorg gcc
+
 if [ "$NOPITFT" != "1" ]; then
     ssh "root@${server}" mkdir -p /tmp/package
     ssh "root@${server}" "cd /tmp/package ; wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-bin-adafruit.deb"
@@ -47,5 +49,3 @@ ssh "${user}@${server}" true 2> /dev/null
 while [ "$?" != "0" ]; do
     ssh "${user}@${server}" true 2> /dev/null
 done
-
-ssh "root@${server}" apt-get install git python-dev python-setuptools avahi-daemon avahi-dnsconfd evtest tslib libts-bin
